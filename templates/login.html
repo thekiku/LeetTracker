@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LeetTracker - Login</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%); 
+            color: #fff; 
+            font-family: 'Segoe UI', sans-serif; 
+            min-height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+        }
+        .login-card { 
+            background: #111; 
+            padding: 50px; 
+            border-radius: 25px; 
+            box-shadow: 0 20px 60px rgba(243, 156, 18, 0.3); 
+            border: 2px solid #f39c12; 
+            width: 100%; 
+            max-width: 400px; 
+            text-align: center;
+        }
+        h1 { 
+            background: linear-gradient(45deg, #f39c12, #e67e22); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            font-size: 2.5em; 
+            margin-bottom: 30px;
+        }
+        input { 
+            width: 100%; 
+            padding: 20px; 
+            background: #222; 
+            color: #fff; 
+            border: 2px solid #333; 
+            border-radius: 15px; 
+            font-size: 1.2em; 
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        input::placeholder { color: #888; }
+        button { 
+            width: 100%; 
+            background: linear-gradient(45deg, #f39c12, #e67e22); 
+            color: #000; 
+            border: none; 
+            padding: 20px; 
+            border-radius: 15px; 
+            font-size: 1.3em; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover { 
+            transform: translateY(-2px); 
+            box-shadow: 0 10px 30px rgba(243, 156, 18, 0.5);
+        }
+        .error-msg { 
+            color: #e74c3c; 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+            display: none;
+        }
+        .loading { 
+            display: none; 
+            color: #f39c12; 
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <h1>LeetTracker 🔥</h1>
+        <div class="error-msg" id="errorMsg"></div>
+        <div class="loading" id="loading">⏳ Verifying username...</div>
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <input id="usernameInput" placeholder="Your LeetCode username" autocomplete="off" required>
+            <button type="submit">Enter LeetTracker</button>
+        </form>
+        <p style="margin-top: 20px; color: #888; font-size: 0.9em;">
+            ex: premium_user123
+        </p>
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('usernameInput').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const loading = document.getElementById('loading');
+            
+            if (!username) {
+                errorMsg.textContent = '❌ Please enter a username';
+                errorMsg.style.display = 'block';
+                return;
+            }
+            
+            loading.style.display = 'block';
+            errorMsg.style.display = 'none';
+            
+            try {
+                const response = await fetch(`/stats/${username}`);
+                const data = await response.json();
+                
+                if (data.error) {
+                    errorMsg.textContent = `❌ User "${username}" not found on LeetCode`;
+                    errorMsg.style.display = 'block';
+                    loading.style.display = 'none';
+                } else {
+                    // Save username and redirect with query parameter
+                    localStorage.setItem('currentUser', username);
+                    window.location.href = `/?user=${encodeURIComponent(username)}`;
+                }
+            } catch (err) {
+                errorMsg.textContent = '❌ Connection error. Try again.';
+                errorMsg.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
