@@ -9,7 +9,6 @@ Track your LeetCode progress with friends and leaderboards.
 - Global users to follow
 
 ## Quick Setup
-```bash
 pip install flask requests
 python app.py
 Open http://localhost:5000
