@@ -1,4 +1,7 @@
-# LeetTracker
+<img width="87" height="85" alt="image" src="https://github.com/user-attachments/assets/956f3724-c939-4de7-9cf4-b74a49df3bc3" />
+
+# LeetTracker – LeetCode Progress Tracker
+
 
 LeetTracker helps you track your **LeetCode progress**, compare stats with friends, and stay motivated through **leaderboards and social tracking**.
 
