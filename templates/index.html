@@ -313,13 +313,12 @@
         loadFriends();
         loadGlobalUsers();
         
-        // 🟢 Heartbeat to track online status
+        // Track online status
         setInterval(() => {
             fetch('/api/heartbeat', { method: 'POST' })
                 .catch(err => console.log('Heartbeat sent'))
         }, 30000);
         
-        // Send heartbeat immediately on page load
         fetch('/api/heartbeat', { method: 'POST' });
         
         // Refresh global users and friends every 20 seconds
